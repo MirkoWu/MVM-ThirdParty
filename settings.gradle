@@ -1,0 +1,5 @@
+include ':lib_umeng'
+include ':lib_crash'
+include ':lib_bugly'
+include ':app'
+rootProject.name = "MVM-ThirdParty"

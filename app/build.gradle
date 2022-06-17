@@ -1,0 +1,156 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+
+apply plugin: 'bugly'
+
+bugly {
+    appId = "3e2cd9bf87"
+    appKey = "1b977565-a3ce-4188-9eea-255729b7ddc8"
+}
+
+static def getDate() {
+    def date = new Date()
+    def formattedDate = date.format('yyyy-MM-dd-HH-mm')
+    return formattedDate
+}
+
+def ext = rootProject.ext
+android {
+    compileSdkVersion ext.compileSdkVersion
+    buildToolsVersion "30.0.3"
+
+    defaultConfig {
+        applicationId "com.mirkowu.mvm"
+        minSdkVersion ext.minSdkVersion
+        targetSdkVersion ext.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+//        ndk {
+//            //设置支持的SO库架构
+//            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a'//, 'x86', 'x86_64'
+//        }
+        //只保留当前语言资源，加快编译
+        resConfigs "zh"
+    }
+
+    signingConfigs {
+        release {
+            storeFile file('../keystore.jks')
+            storePassword '123456'
+            keyAlias '123456'
+            keyPassword '123456'
+        }
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+
+            //debug模式关闭crunchPng优化, 以加快构建
+            crunchPngs false
+        }
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+
+            debuggable false
+            jniDebuggable false
+            zipAlignEnabled true
+        }
+    }
+    //AS4.0及以上
+    buildFeatures {
+        viewBinding = true
+//        dataBinding = true
+    }
+    //4.0以下
+//    viewBinding {
+//        enabled = true
+//    }
+//    dataBinding {
+//        enabled = true
+//    }
+
+    //支持Java1.8必加
+    compileOptions {
+        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    //忽略编译器的lint检查
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+
+    // 自定义输出配置
+    applicationVariants.all { variant ->
+        def versionName = variant.versionName
+        def buildTypeName = variant.buildType.name
+        variant.outputs.all { output ->
+            outputFileName = "V" + versionName + "_" + getDate() + "_" + buildTypeName + ".apk"
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "androidx.core:core-ktx:$ext.core_ktx_version"
+    implementation "androidx.appcompat:appcompat:$ext.appcompat_version"
+//    implementation "com.google.android.material:material:$ext.material_version"
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+
+    //是否使用本地lib
+    def useLocalModule = true
+    if (!useLocalModule) {
+//        implementation("com.github.mirkowu:mvm:$ext.mvm_version") { //总仓库
+//            exclude group: "com.github.mirkowu.mvm", module: "lib_bugly"
+////            exclude group: "com.github.mirkowu.mvm", module: "lib_crash"
+//        }
+
+
+        implementation "com.github.mirkowu.mvm:lib_stat:$ext.mvm_version"
+        implementation "com.github.mirkowu.mvm:lib_bugly:$ext.mvm_version" //bugly 包含升级SDK 二选一
+//        implementation "com.github.mirkowu.mvm:lib_crash:$ext.mvm_version" //bugly 不含升级SDK 二选一
+    } else {
+        implementation "com.github.mirkowu.mvm:lib_base:$ext.mvm_version"
+        implementation "com.github.mirkowu.mvm:lib_util:$ext.mvm_version"
+        implementation "com.github.mirkowu.mvm:lib_widget:$ext.mvm_version"
+        implementation "com.github.mirkowu.mvm:lib_network:$ext.mvm_version"
+        implementation "com.github.mirkowu.mvm:lib_webview:$ext.mvm_version"
+        implementation "com.github.mirkowu.mvm:lib_image:$ext.mvm_version"
+        implementation "com.github.mirkowu.mvm:lib_photo:$ext.mvm_version"
+        implementation "com.github.mirkowu.mvm:lib_qr:$ext.mvm_version"
+        implementation "com.github.mirkowu.mvm:lib_camera:$ext.mvm_version"
+        implementation "com.github.mirkowu.mvm:lib_screen:$ext.mvm_version"
+        implementation "com.github.mirkowu.mvm:lib_upgrade:$ext.mvm_version"
+        implementation project(path: ':lib_umeng')
+        implementation project(path: ':lib_bugly') //bugly 包含升级SDK 二选一
+//        implementation project(path: ':lib_crash') //bugly 不含升级SDK 二选一
+    }
+
+
+    implementation "com.github.bumptech.glide:glide:$ext.glide_version"
+    //检测内测泄露
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.7'
+
+    //UE
+    debugImplementation 'com.github.eleme.UETool:uetool:1.3.2'
+    debugImplementation 'com.github.eleme.UETool:uetool-base:1.3.2'
+    releaseImplementation 'com.github.eleme.UETool:uetool-no-op:1.3.2'
+}

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <paths>
+        <!--为了适配所有路径可以设置 path = "." -->
+        <external-path
+            name="external_files"
+            path="." />
+    </paths>
+</resources>
