@@ -20,7 +20,7 @@
     <Button
         android:id="@+id/btn_jump_mvm"
         android:layout_width="match_parent"
-        android:text="查看MVM组件库，请点击跳转"
+        android:text="完整MVM组件库，请点击跳转"
         android:layout_height="wrap_content"/>
 
     <Button
