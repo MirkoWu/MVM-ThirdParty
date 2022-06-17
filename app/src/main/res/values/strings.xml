@@ -1,4 +1,3 @@
 <resources>
-    <string name="app_name">MVM Component</string>
-    <string name="skip_d">跳过%d</string>
+    <string name="app_name">MVM-ThirdParty</string>
 </resources>

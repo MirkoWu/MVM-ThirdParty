@@ -6,12 +6,39 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".MainActivity">
-
-    <com.mirkowu.lib_widget.NoScrollViewPager
-        android:id="@+id/vp_home"
+    <com.mirkowu.lib_widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:fitsSystemWindows="true"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:showLine="true"
+        app:title="@string/app_name" />
 
+    <Button
+        android:id="@+id/btn_jump_mvm"
+        android:layout_width="match_parent"
+        android:text="查看MVM组件库，请点击跳转"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/btn_bugly_upgrade"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bugly更新版本" />
+
+    <Button
+        android:id="@+id/btn_upgrade"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="更新版本" />
+
+    <Button
+        android:id="@+id/btn_crash"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="测试Crash" />
 
 </LinearLayout>
