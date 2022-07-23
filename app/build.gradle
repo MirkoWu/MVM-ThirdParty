@@ -117,7 +117,7 @@ dependencies {
 
 //    implementation 'com.github.mirkowu:mvm:$ext.mvm_version'   //总仓库
     implementation "com.github.mirkowu.mvm:lib_base:$ext.mvm_version"
-    compileOnly "com.github.mirkowu.mvm:lib_util:$ext.mvm_version"
+    implementation "com.github.mirkowu.mvm:lib_util:$ext.mvm_version"
     implementation "com.github.mirkowu.mvm:lib_widget:$ext.mvm_version"
     implementation "com.github.mirkowu.mvm:lib_network:$ext.mvm_version"
     implementation "com.github.mirkowu.mvm:lib_webview:$ext.mvm_version"
