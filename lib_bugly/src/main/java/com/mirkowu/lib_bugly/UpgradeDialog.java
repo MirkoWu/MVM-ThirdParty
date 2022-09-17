@@ -9,7 +9,7 @@ import android.widget.TextView;
 import androidx.fragment.app.FragmentManager;
 
 import com.mirkowu.lib_util.LogUtil;
-import com.mirkowu.lib_util.PermissionsUtil;
+import com.mirkowu.lib_util.PermissionsUtils;
 import com.mirkowu.lib_util.utilcode.util.ToastUtils;
 import com.mirkowu.lib_widget.dialog.BaseDialog;
 import com.tencent.bugly.beta.UpgradeInfo;
@@ -130,7 +130,7 @@ public class UpgradeDialog extends BaseDialog implements DownloadListener, Upgra
             if (mClickListener != null) {
                 mClickListener.onButtonClick(this, true);
             }
-            if (PermissionsUtil.hasPermissions(getContext(), PermissionsUtil.GROUP_STORAGE)) {
+            if (PermissionsUtils.hasPermissions(getContext(), PermissionsUtils.GROUP_STORAGE)) {
                 startDownloadTask();
             } else {
                 LogUtil.e("没有存储权限");
